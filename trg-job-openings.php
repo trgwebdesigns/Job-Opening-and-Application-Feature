@@ -84,4 +84,19 @@ function trg_job_openings_activate() {
     flush_rewrite_rules();
 }
 register_activation_hook( __FILE__, 'trg_job_openings_activate' );
+
+/**
+ * Add Apply Now button to bottom of Job Opening posts 
+ */
+function trg_add_apply_now_button( $content ) {
+	global $post;
+	$href = get_site_url() . '/job-application/?job_title=' . urlencode( $post->post_title );
+	$button = "<div class=\"et_pb_button_module_wrapper job-apply\"><a class=\"et_pb_button\" href=\"$href\">Apply Now</a></div>"; 
+	if( is_singular( 'trg_job_opening' ) ) {
+		$content .= $button;
+	}
+		return $content;
+}
+add_filter('the_content','trg_add_apply_now_button');
+
 ?>
